@@ -40,20 +40,43 @@ public class Esecuzione {
         //Esercizio 1
         System.out.println("Primo Esercizio :");
         prodotti.stream().filter(product -> product.getCategory().contains("Books")).filter(product -> product.getPrice()>100).forEach(System.out::println);
+        System.out.println();
+        System.out.println("--------------------Correzione e1");
+
+        List<Product> es1 = prodotti.stream().filter(product -> product.getCategory().equals("Books")&&product.getPrice()>100).toList();
+        System.out.println(es1);
         System.out.println("---------------------------");
 
         //Esercizio 2
         System.out.println("Secondo Esercizio");
-        ordiniGlobali.stream().flatMap(order -> order.getProducts().stream().filter(product -> product.getCategory().contains("Baby"))).forEach(System.out::println);
 
+        ordiniGlobali.stream().flatMap(order -> order.getProducts().stream().filter(product -> product.getCategory().contains("Baby"))).forEach(System.out::println);
+        System.out.println();
+        System.out.println("------------Correzione e2-----------------");
+        List<Order> es2 = ordiniGlobali.stream().filter(order -> order.getProducts().stream().
+                anyMatch(product -> product.getCategory().equals("Baby"))).toList();
+        System.out.println(es2);
+        System.out.println("--------------------------------");
         //Esercizio 3
         System.out.println("Esercizio 3");
         prodotti3.stream().filter(product -> product.getCategory().contains("Boys")).map(product -> product.getPrice()).map(price -> price * 0.9).forEach(System.out::println);
+        System.out.println();
+        System.out.println("Correzione es3");
+         List<Product> es3 =  prodotti3.stream().filter(product -> product.getCategory().equals("Boys")).
+                map(product -> {product.setPrice(product.getPrice()*0.9);
+                return product;}).toList();
+        System.out.println(es3);
 
         //Esercizio4
         System.out.println("Esercizio 4");
         ordiniGlobali.stream().map(order -> order.getCustomer().getTier()).filter(integer -> integer ==2).forEach(System.out::println);
-
+        System.out.println();
+        System.out.println("Correzione es4");
+        List<Product> es4 =  ordiniGlobali.stream().filter(order -> order.getCustomer().getTier()==2).
+                filter(order -> order.getOrderDate().isAfter(LocalDate.of(2021,2,1))&&order.getOrderDate().
+                        isBefore(LocalDate.of(2021,4,1))).
+                flatMap(order -> order.getProducts().stream()).toList();
+        System.out.println(es4);
 
     }
 }
